@@ -1,0 +1,12 @@
+POST https://conduit.productionready.io/api/users/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "user": {
+    "email": "skyblue300a@gmail.com",
+    "password": "lolchessgg"
+  }
+}
+
+###
