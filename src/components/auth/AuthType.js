@@ -11,7 +11,7 @@ const AUTH_TYPE = {
   },
   ALREADY_LOGIN: {
     subject: 'Logout',
-    path: '',
+    path: '/logout',
     isRegister: () => false,
   },
 };
