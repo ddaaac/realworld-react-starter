@@ -1,13 +1,17 @@
-import React from "react";
+import React, {useEffect} from "react";
 import useInput from "../utils/useInput";
 import ErrorMessages from "../components/auth/ErrorMessages";
 import Input from "../components/auth/Input";
 import {Link} from "react-router-dom";
 
-const Auth = ({type, onClick, errors, pushToLogin}) => {
+const Auth = ({type, onClick, errors, pushToLogin, onUnmounted}) => {
   const nameInput = useInput("");
   const emailInput = useInput("");
   const passwordInput = useInput("");
+
+  useEffect(() => {
+    return () => onUnmounted();
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();

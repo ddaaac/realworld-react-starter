@@ -1,22 +1,29 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
-import {Route, useHistory, useLocation} from "react-router-dom";
+import {Route, useHistory} from "react-router-dom";
 import api from "./api/api";
 import AuthType from "./components/auth/AuthType";
+import Settings from "./pages/Settings";
+import tokenAdmin from "./utils/token";
 
 const App = () => {
   const [errors, setErrors] = useState({});
+  const [myInfo, setMyInfo] = useState({});
   const [currentAuthType, setCurrentAuthType] = useState(AuthType.NEED_REGISTER);
   const history = useHistory();
-  const location = useLocation();
+
+  useEffect(() => {
+    if (isUserAlreadyLogin() && currentAuthType !== AuthType.ALREADY_LOGIN) {
+      setCurrentAuthType(AuthType.ALREADY_LOGIN);
+    }
+  }, []);
 
   const onAuth = async (apiMethod, nextPath, nextAuthState, props) => {
     try {
       const response = await apiMethod(props);
-      setErrors(null);
       setCurrentAuthType(nextAuthState);
       history.push(nextPath);
       return response;
@@ -39,13 +46,38 @@ const App = () => {
     const response = await onAuth(api.users.login, '/', AuthType.ALREADY_LOGIN, {email, password});
     if (response) {
       const token = response.data.user.token;
-      localStorage.setItem("realWorldToken", token);
+      tokenAdmin.setToken(token);
     }
   };
 
   const logout = () => {
-    localStorage.removeItem("realWorldToken");
+    tokenAdmin.clearToken();
     setCurrentAuthType(AuthType.NEED_LOGIN);
+  };
+
+  const getMyInfo = async () => {
+    try {
+      const response = await api.users.getMyInfo(tokenAdmin.getToken());
+      setMyInfo(response.data.user);
+    } catch (e) {
+      setErrors({"errors": "unauthorized"});
+    }
+  };
+
+  const updateMyInfo = async ({email, username, password, image, bio}) => {
+    try {
+      await api.users.updateMyInfo(tokenAdmin.getToken(), {email, username, password, image, bio})
+    } catch (e) {
+      setErrors({"errors": "unauthorized"});
+    }
+  };
+
+  const isUserAlreadyLogin = () => {
+    return tokenAdmin.getToken() !== null;
+  };
+
+  const onUnmounted = () => {
+    setErrors(null);
   };
 
   return (
@@ -55,10 +87,15 @@ const App = () => {
         <Home/>
       </Route>
       <Route path={AuthType.NEED_REGISTER.path} exact>
-        <Auth type={AuthType.NEED_REGISTER} onClick={registerUser} errors={errors} pushToLogin={pushToLogin}/>
+        <Auth type={AuthType.NEED_REGISTER} onClick={registerUser} errors={errors} pushToLogin={pushToLogin}
+              onUnmounted={onUnmounted}/>
       </Route>
       <Route path={AuthType.NEED_LOGIN.path} exact>
-        <Auth type={AuthType.NEED_LOGIN} onClick={loginUser} errors={errors}/>
+        <Auth type={AuthType.NEED_LOGIN} onClick={loginUser} errors={errors} onUnmounted={onUnmounted}/>
+      </Route>
+      <Route path="/settings" exact>
+        <Settings updateMyInfo={updateMyInfo} onLoad={getMyInfo} myInfo={myInfo} errors={errors}
+                  onUnmounted={onUnmounted}/>
       </Route>
       <Footer/>
     </>

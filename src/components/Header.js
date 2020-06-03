@@ -22,9 +22,14 @@ const Header = ({currentAuthType, logout}) => {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="">
-              <i className="ion-gear-a"></i>&nbsp;Settings
-            </a>
+            <NavLink
+              className={"nav-link"}
+              activeClassName={"active"}
+              exact
+              to="/settings"
+            >
+              <i className="ion-gear-a"/>&nbsp;Settings
+            </NavLink>
           </li>
           {(currentAuthType === AUTH_TYPE.NEED_REGISTER || currentAuthType === AUTH_TYPE.NEED_LOGIN) &&
           <li className="nav-item">
