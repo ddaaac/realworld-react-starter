@@ -53,6 +53,8 @@ const App = () => {
   const logout = () => {
     tokenAdmin.clearToken();
     setCurrentAuthType(AuthType.NEED_LOGIN);
+    setMyInfo(null);
+    history.push("/");
   };
 
   const getMyInfo = async () => {
@@ -66,9 +68,11 @@ const App = () => {
 
   const updateMyInfo = async ({email, username, password, image, bio}) => {
     try {
-      await api.users.updateMyInfo(tokenAdmin.getToken(), {email, username, password, image, bio})
+      await api.users.updateMyInfo(tokenAdmin.getToken(), {email, username, password, image, bio});
+      alert("유저 정보가 변경되었습니다.");
     } catch (e) {
-      setErrors({"errors": "unauthorized"});
+      const errors = e.response.data ? e.response.data : {status: e.response.status};
+      setErrors(errors);
     }
   };
 

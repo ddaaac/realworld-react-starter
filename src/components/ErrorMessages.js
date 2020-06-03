@@ -5,7 +5,7 @@ function ErrorMessages({errors}) {
     errors &&
     <ul className="error-messages">
       {Object.entries(errors)
-        .map(([k, v]) => <li key={k}>{k + " " + v[0]}</li>)}
+        .map(([k, v]) => <li key={k}>{k + " " + (Array.isArray(v) ? v[0] : v)}</li>)}
     </ul>
   );
 }

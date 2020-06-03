@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import useInput from "../utils/useInput";
-import ErrorMessages from "../components/auth/ErrorMessages";
+import ErrorMessages from "../components/ErrorMessages";
 import Input from "../components/auth/Input";
 import {Link} from "react-router-dom";
 

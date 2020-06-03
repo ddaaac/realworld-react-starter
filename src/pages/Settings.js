@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import isEmptyObject from "../utils/util";
 import useInput from "../utils/useInput";
+import ErrorMessages from "../components/ErrorMessages";
 
 const Settings = ({updateMyInfo, onLoad, myInfo, errors, onUnmounted}) => {
   const image = useInput("");
@@ -30,12 +31,13 @@ const Settings = ({updateMyInfo, onLoad, myInfo, errors, onUnmounted}) => {
   };
 
   return (
-    (!isEmptyObject(myInfo) && isEmptyObject(errors)) &&
+    !isEmptyObject(myInfo) &&
     <div className="settings-page">
       <div className="container page">
         <div className="row">
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">Your Settings</h1>
+            <ErrorMessages errors={errors}/>
             <form>
               <fieldset>
                 <fieldset className="form-group">
