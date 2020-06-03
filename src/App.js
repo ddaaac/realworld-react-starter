@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import Auth from "./pages/auth/Auth";
+import Auth from "./pages/Auth";
 import {Route, useHistory, useLocation} from "react-router-dom";
 import api from "./api/api";
 import AuthType from "./components/auth/AuthType";
@@ -15,10 +15,11 @@ const App = () => {
 
   const onAuth = async (apiMethod, nextPath, nextAuthState, props) => {
     try {
-      await apiMethod(props);
+      const response = await apiMethod(props);
       setErrors(null);
       setCurrentAuthType(nextAuthState);
       history.push(nextPath);
+      return response;
     } catch (e) {
       const errors = e.response.data.errors;
       setErrors(errors);
@@ -34,12 +35,16 @@ const App = () => {
     onAuth(api.users.register, '/login', AuthType.NEED_LOGIN, {email, password, username});
   };
 
-  const loginUser = ({email, password}) => {
-    onAuth(api.users.login, '/', AuthType.ALREADY_LOGIN, {email, password});
+  const loginUser = async ({email, password}) => {
+    const response = await onAuth(api.users.login, '/', AuthType.ALREADY_LOGIN, {email, password});
+    if (response) {
+      const token = response.data.user.token;
+      localStorage.setItem("realWorldToken", token);
+    }
   };
 
   const logout = () => {
-    // TODO: 토큰 초기화
+    localStorage.removeItem("realWorldToken");
     setCurrentAuthType(AuthType.NEED_LOGIN);
   };
 

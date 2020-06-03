@@ -1,7 +1,7 @@
 import React from "react";
-import useInput from "../../utils/useInput";
-import ErrorMessages from "../../components/auth/ErrorMessages";
-import Input from "../../components/auth/Input";
+import useInput from "../utils/useInput";
+import ErrorMessages from "../components/auth/ErrorMessages";
+import Input from "../components/auth/Input";
 import {Link} from "react-router-dom";
 
 const Auth = ({type, onClick, errors, pushToLogin}) => {
