@@ -8,6 +8,7 @@ import api from "./api/api";
 import AuthType from "./components/auth/AuthType";
 import Settings from "./pages/Settings";
 import tokenAdmin from "./utils/token";
+import Editor from "./pages/Editor";
 
 const App = () => {
   const [errors, setErrors] = useState({});
@@ -21,6 +22,10 @@ const App = () => {
     }
   }, []);
 
+  const onUnmounted = () => {
+    setErrors(null);
+  };
+
   const onAuth = async (apiMethod, nextPath, nextAuthState, props) => {
     try {
       const response = await apiMethod(props);
@@ -31,11 +36,6 @@ const App = () => {
       const errors = e.response.data.errors;
       setErrors(errors);
     }
-  };
-
-  const pushToLogin = () => {
-    setCurrentAuthType(AuthType.NEED_LOGIN);
-    history.push(AuthType.NEED_LOGIN.path)
   };
 
   const registerUser = ({email, password, username}) => {
@@ -57,12 +57,22 @@ const App = () => {
     history.push("/");
   };
 
+  const pushToLogin = () => {
+    setCurrentAuthType(AuthType.NEED_LOGIN);
+    history.push(AuthType.NEED_LOGIN.path)
+  };
+
+  const isUserAlreadyLogin = () => {
+    return tokenAdmin.getToken() !== null;
+  };
+
   const getMyInfo = async () => {
     try {
       const response = await api.users.getMyInfo(tokenAdmin.getToken());
       setMyInfo(response.data.user);
     } catch (e) {
-      setErrors({"errors": "unauthorized"});
+      const errors = e.response.data ? e.response.data : {status: e.response.status};
+      setErrors(errors);
     }
   };
 
@@ -76,12 +86,15 @@ const App = () => {
     }
   };
 
-  const isUserAlreadyLogin = () => {
-    return tokenAdmin.getToken() !== null;
-  };
-
-  const onUnmounted = () => {
-    setErrors(null);
+  const createArticle = async ({title, description, body, tagList}) => {
+    try {
+      await api.articles.create(tokenAdmin.getToken(), {title, description, body, tagList});
+      alert("기사가 등록되었습니다.");
+      history.push("/");
+    } catch (e) {
+      const errors = e.response.data ? e.response.data : {status: e.response.status};
+      setErrors(errors);
+    }
   };
 
   return (
@@ -100,6 +113,9 @@ const App = () => {
       <Route path="/settings" exact>
         <Settings updateMyInfo={updateMyInfo} onLoad={getMyInfo} myInfo={myInfo} errors={errors}
                   onUnmounted={onUnmounted}/>
+      </Route>
+      <Route path="/editor" exact>
+        <Editor createArticle={createArticle}/>
       </Route>
       <Footer/>
     </>

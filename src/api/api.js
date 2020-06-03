@@ -73,8 +73,41 @@ const api = (() => {
     },
   };
 
+  const articles = {
+    create(token, {title, description, body, tagList}) {
+      return METHOD.POST(`${BASE_URL}/articles`, {
+        article: {
+          title,
+          description,
+          body,
+          tagList,
+        },
+      }, {headers: setTokenHeader({}, token)});
+    },
+    get(slug) {
+      return METHOD.GET(`${BASE_URL}/articles/${slug}`);
+    },
+    update(token, slug, {title, description, body}) {
+      const data = {
+        article: {
+          title,
+          description,
+          body,
+        },
+      };
+      const config = {
+        headers: setTokenHeader({}, token),
+      };
+      return METHOD.PUT(`${BASE_URL}/articles/${slug}`, data, config);
+    },
+    delete(token, slug) {
+      return METHOD.DELETE(`${BASE_URL}/articles/${slug}`, {headers: setTokenHeader({}, token)});
+    },
+  };
+
   return {
     users,
+    articles,
   }
 })();
 
