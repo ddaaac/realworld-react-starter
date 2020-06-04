@@ -1,5 +1,7 @@
 import React, {useReducer} from "react";
 import inputReducer from "../utils/inputReducer";
+import FieldInput from "../components/FieldInput";
+import SubmitButton from "../components/SubmitButton";
 
 const Editor = ({createArticle}) => {
   const [state, dispatch] = useReducer(inputReducer, {
@@ -15,8 +17,7 @@ const Editor = ({createArticle}) => {
     dispatch(e.target);
   };
 
-  const onClick = (e) => {
-    e.preventDefault();
+  const submitArticle = () => {
     const data = {
       ...state,
       tagList: tagList.replace(" ", "").split(","),
@@ -31,28 +32,16 @@ const Editor = ({createArticle}) => {
           <div className="col-md-10 offset-md-1 col-xs-12">
             <form>
               <fieldset>
-                <fieldset className="form-group">
-                  <input type="text" name="title" value={title} onChange={onChange}
-                         className="form-control form-control-lg"
-                         placeholder="Article Title"/>
-                </fieldset>
-                <fieldset className="form-group">
-                  <input type="text" name="description" value={description} onChange={onChange} className="form-control"
-                         placeholder="What's this article about?"/>
-                </fieldset>
-                <fieldset className="form-group">
-                  <textarea name="body" value={body} onChange={onChange} className="form-control" rows="8"
+                <FieldInput type="text" name="title" placeholder="Article Title" value={title} onChange={onChange}/>
+                <FieldInput type="text" name="description" value={description} onChange={onChange}
+                            placeholder="What's this article about?"/>
+                <FieldInput type="textarea" name="body" value={body} onChange={onChange}
                             placeholder="Write your article (in markdown)"/>
-                </fieldset>
-                <fieldset className="form-group">
-                  <input type="text" className="form-control" name="tagList" value={tagList} onChange={onChange}
-                         placeholder="Enter tags"/>
+                <FieldInput type="text" name="tagList" value={tagList} onChange={onChange} placeholder="Enter tags">
                   <div className="tag-list">
                   </div>
-                </fieldset>
-                <button className="btn btn-lg pull-xs-right btn-primary" type="button" onClick={onClick}>
-                  Publish Article
-                </button>
+                </FieldInput>
+                <SubmitButton onSubmit={submitArticle}>Publish Article</SubmitButton>
               </fieldset>
             </form>
           </div>

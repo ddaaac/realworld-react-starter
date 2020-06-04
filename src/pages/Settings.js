@@ -2,6 +2,8 @@ import React, {useEffect, useReducer} from "react";
 import isEmptyObject from "../utils/util";
 import ErrorMessages from "../components/ErrorMessages";
 import inputReducer from "../utils/inputReducer";
+import FieldInput from "../components/FieldInput";
+import SubmitButton from "../components/SubmitButton";
 
 const Settings = ({updateMyInfo, onLoad, myInfo, errors, onUnmounted}) => {
   const [state, dispatch] = useReducer(inputReducer, {
@@ -32,8 +34,7 @@ const Settings = ({updateMyInfo, onLoad, myInfo, errors, onUnmounted}) => {
     dispatch(e.target);
   };
 
-  const onUpdate = (e) => {
-    e.preventDefault();
+  const updateUser = () => {
     const updateData = Object.entries(state).reduce((a, [k, v]) => (v ? (a[k] = v, a) : a), {});
     updateMyInfo(updateData);
   };
@@ -48,29 +49,15 @@ const Settings = ({updateMyInfo, onLoad, myInfo, errors, onUnmounted}) => {
             <ErrorMessages errors={errors}/>
             <form>
               <fieldset>
-                <fieldset className="form-group">
-                  <input className="form-control" type="text" placeholder="URL of profile picture" name="image"
-                         value={image} onChange={onChange}/>
-                </fieldset>
-                <fieldset className="form-group">
-                  <input className="form-control form-control-lg" type="text" placeholder="Your Name" name="username"
-                         value={username} onChange={onChange}/>
-                </fieldset>
-                <fieldset className="form-group">
-                  <textarea className="form-control form-control-lg" rows="8" placeholder="Short bio about you"
-                            name="bio" value={bio} onChange={onChange}/>
-                </fieldset>
-                <fieldset className="form-group">
-                  <input className="form-control form-control-lg" type="text" placeholder="Email" name="email"
-                         value={email} onChange={onChange}/>
-                </fieldset>
-                <fieldset className="form-group">
-                  <input className="form-control form-control-lg" type="password" placeholder="Password" name="password"
-                         value={password} onChange={onChange}/>
-                </fieldset>
-                <button className="btn btn-lg btn-primary pull-xs-right" onClick={onUpdate}>
-                  Update Settings
-                </button>
+                <FieldInput type="text" placeholder="URL of profile picture" name="image" value={image}
+                            onChange={onChange}/>
+                <FieldInput type="text" placeholder="Your Name" name="username" value={username} onChange={onChange}/>
+                <FieldInput placeholder="Short bio about you" name="bio" value={bio} onChange={onChange}
+                            type="textarea"/>
+                <FieldInput type="text" placeholder="Email" name="email" value={email} onChange={onChange}/>
+                <FieldInput type="password" placeholder="Password" name="password" value={password}
+                            onChange={onChange}/>
+                <SubmitButton onSubmit={updateUser}>Update Settings</SubmitButton>
               </fieldset>
             </form>
           </div>

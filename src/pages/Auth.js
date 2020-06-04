@@ -13,12 +13,12 @@ const Auth = ({type, onClick, errors, pushToLogin, onUnmounted}) => {
     return () => onUnmounted();
   }, []);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    onClick({
+    await onClick({
       email: emailInput.value,
       password: passwordInput.value,
-      username: nameInput.value
+      username: nameInput.value,
     });
   };
 

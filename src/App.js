@@ -17,7 +17,7 @@ const App = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (isUserAlreadyLogin() && currentAuthType !== AuthType.ALREADY_LOGIN) {
+    if (isLogin() && currentAuthType !== AuthType.ALREADY_LOGIN) {
       setCurrentAuthType(AuthType.ALREADY_LOGIN);
     }
   }, []);
@@ -53,16 +53,16 @@ const App = () => {
   const logout = () => {
     tokenAdmin.clearToken();
     setCurrentAuthType(AuthType.NEED_LOGIN);
-    setMyInfo(null);
+    setMyInfo({});
     history.push("/");
   };
 
   const pushToLogin = () => {
     setCurrentAuthType(AuthType.NEED_LOGIN);
-    history.push(AuthType.NEED_LOGIN.path)
+    history.push(AuthType.NEED_LOGIN.path);
   };
 
-  const isUserAlreadyLogin = () => {
+  const isLogin = () => {
     return tokenAdmin.getToken() !== null;
   };
 
@@ -111,8 +111,12 @@ const App = () => {
         <Auth type={AuthType.NEED_LOGIN} onClick={loginUser} errors={errors} onUnmounted={onUnmounted}/>
       </Route>
       <Route path="/settings" exact>
-        <Settings updateMyInfo={updateMyInfo} onLoad={getMyInfo} myInfo={myInfo} errors={errors}
-                  onUnmounted={onUnmounted}/>
+        <Settings
+          updateMyInfo={updateMyInfo}
+          onLoad={getMyInfo}
+          myInfo={myInfo}
+          errors={errors}
+          onUnmounted={onUnmounted}/>
       </Route>
       <Route path="/editor" exact>
         <Editor createArticle={createArticle}/>
