@@ -83,7 +83,7 @@ const App = () => {
       await api.users.updateMyInfo(tokenAdmin.getToken(), {email, username, password, image, bio});
       alert("유저 정보가 변경되었습니다.");
     } catch (e) {
-      const errors = e.response.data ? e.response.data : {status: e.response.status};
+      const errors = e.response.data ? e.response.data.errors : {status: e.response.status};
       setErrors(errors);
     }
   };
