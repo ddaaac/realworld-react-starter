@@ -9,6 +9,7 @@ import AuthType from "./components/auth/AuthType";
 import Settings from "./pages/Settings";
 import tokenAdmin from "./utils/token";
 import Editor from "./pages/Editor";
+import AuthRoute from "./components/AuthRoute";
 
 const App = () => {
   const [errors, setErrors] = useState({});
@@ -22,8 +23,9 @@ const App = () => {
     }
   }, []);
 
-  const onUnmounted = () => {
+  const onUnmounted = (nextPath) => {
     setErrors(null);
+    history.push(nextPath);
   };
 
   const onAuth = async (apiMethod, nextPath, nextAuthState, props) => {
@@ -97,6 +99,7 @@ const App = () => {
     }
   };
 
+
   return (
     <>
       <Header currentAuthType={currentAuthType} logout={logout}/>
@@ -110,17 +113,19 @@ const App = () => {
       <Route path={AuthType.NEED_LOGIN.path} exact>
         <Auth type={AuthType.NEED_LOGIN} onClick={loginUser} errors={errors} onUnmounted={onUnmounted}/>
       </Route>
-      <Route path="/settings" exact>
+
+      <AuthRoute path="/settings" exact isLogin={isLogin} currentAuthType={currentAuthType}>
         <Settings
           updateMyInfo={updateMyInfo}
           onLoad={getMyInfo}
           myInfo={myInfo}
           errors={errors}
-          onUnmounted={onUnmounted}/>
-      </Route>
-      <Route path="/editor" exact>
+          onUnmounted={onUnmounted}
+        />
+      </AuthRoute>
+      <AuthRoute path="/editor" exact isLogin={isLogin} currentAuthType={currentAuthType}>
         <Editor createArticle={createArticle}/>
-      </Route>
+      </AuthRoute>
       <Footer/>
     </>
   );

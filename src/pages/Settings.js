@@ -5,7 +5,7 @@ import inputReducer from "../utils/inputReducer";
 import FieldInput from "../components/FieldInput";
 import SubmitButton from "../components/SubmitButton";
 
-const Settings = ({updateMyInfo, onLoad, myInfo, errors, onUnmounted}) => {
+const Settings = ({updateMyInfo, onLoad, myInfo, errors, onUnmounted, isLogin, pushToLogin}) => {
   const [state, dispatch] = useReducer(inputReducer, {
     image: "",
     username: "",

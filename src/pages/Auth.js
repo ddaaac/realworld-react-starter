@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import useInput from "../utils/useInput";
 import ErrorMessages from "../components/ErrorMessages";
 import Input from "../components/auth/Input";
+// eslint-disable-next-line no-unused-vars
 import {Link} from "react-router-dom";
 
 const Auth = ({type, onClick, errors, pushToLogin, onUnmounted}) => {
@@ -10,7 +11,9 @@ const Auth = ({type, onClick, errors, pushToLogin, onUnmounted}) => {
   const passwordInput = useInput("");
 
   useEffect(() => {
-    return () => onUnmounted();
+    return () => {
+      onUnmounted();
+    }
   }, []);
 
   const onSubmit = async (e) => {
