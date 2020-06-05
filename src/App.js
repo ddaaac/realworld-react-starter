@@ -113,7 +113,6 @@ const App = () => {
       <Route path={AuthType.NEED_LOGIN.path} exact>
         <Auth type={AuthType.NEED_LOGIN} onClick={loginUser} errors={errors} onUnmounted={onUnmounted}/>
       </Route>
-
       <AuthRoute path="/settings" exact isLogin={isLogin} currentAuthType={currentAuthType}>
         <Settings
           updateMyInfo={updateMyInfo}

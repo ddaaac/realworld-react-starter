@@ -1,14 +1,18 @@
-import React, {useEffect} from "react";
-import useInput from "../utils/useInput";
+import React, {useEffect, useReducer} from "react";
 import ErrorMessages from "../components/ErrorMessages";
-import Input from "../components/auth/Input";
-// eslint-disable-next-line no-unused-vars
 import {Link} from "react-router-dom";
+import FieldInput from "../components/FieldInput";
+import inputReducer from "../utils/inputReducer";
+import SubmitButton from "../components/SubmitButton";
 
 const Auth = ({type, onClick, errors, pushToLogin, onUnmounted}) => {
-  const nameInput = useInput("");
-  const emailInput = useInput("");
-  const passwordInput = useInput("");
+  const [state, dispatch] = useReducer(inputReducer, {
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const {username, email, password} = state;
 
   useEffect(() => {
     return () => {
@@ -16,13 +20,12 @@ const Auth = ({type, onClick, errors, pushToLogin, onUnmounted}) => {
     }
   }, []);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    await onClick({
-      email: emailInput.value,
-      password: passwordInput.value,
-      username: nameInput.value,
-    });
+  const onSubmit = () => {
+    onClick(state);
+  };
+
+  const onChange = (e) => {
+    dispatch(e.target);
   };
 
   const onPushToLogin = (e) => {
@@ -43,13 +46,11 @@ const Auth = ({type, onClick, errors, pushToLogin, onUnmounted}) => {
             <ErrorMessages errors={errors}/>
             <form>
               {type.isRegister() &&
-              <Input input={nameInput} type={"text"} placeholder={"Your Name"}/>
+              <FieldInput type="text" placeholder="Your Name" name="username" value={username} onChange={onChange}/>
               }
-              <Input input={emailInput} type={"text"} placeholder={"Email"}/>
-              <Input input={passwordInput} type={"password"} placeholder={"Password"}/>
-              <button className="btn btn-lg btn-primary pull-xs-right" onClick={onSubmit}>
-                {type.subject}
-              </button>
+              <FieldInput type="text" placeholder="Email" name="email" value={email} onChange={onChange}/>
+              <FieldInput type="password" placeholder="Password" name="password" value={password} onChange={onChange}/>
+              <SubmitButton onSubmit={onSubmit}>{type.subject}</SubmitButton>
             </form>
           </div>
         </div>
