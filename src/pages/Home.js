@@ -1,6 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
+import ArticlePreview from "../components/article/Preview";
+import isEmptyObject from "../utils/util";
+import Nav from "../components/nav";
+import FEED_TYPE from "../components/article/FeedType";
 
-const Home = () => {
+const Home = ({articles, getArticles, feedType, setFeedType}) => {
+  useEffect(() => {
+    getArticles({});
+  }, []);
+
+  const onFeedTypeChange = (feedType) => {
+    setFeedType(feedType);
+    getArticles({my: feedType.isMy});
+  };
+
   return (
     <div className="home-page">
       <div className="banner">
@@ -14,48 +27,18 @@ const Home = () => {
           <div className="col-md-9">
             <div className="feed-toggle">
               <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <a className="nav-link disabled" href="">Your Feed</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" href="">Global Feed</a>
-                </li>
+                <Nav to="/" isActive={() => feedType === FEED_TYPE.MY}
+                     onClick={() => onFeedTypeChange(FEED_TYPE.MY)}>
+                  Your Feed
+                </Nav>
+                <Nav to={"/"} isActive={() => feedType === FEED_TYPE.GLOBAL}
+                     onClick={() => onFeedTypeChange(FEED_TYPE.GLOBAL)}>
+                  Global Feed
+                </Nav>
               </ul>
             </div>
-            <div className="article-preview">
-              <div className="article-meta">
-                <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg"/></a>
-                <div className="info">
-                  <a href="" className="author">Eric Simons</a>
-                  <span className="date">January 20th</span>
-                </div>
-                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart"></i> 29
-                </button>
-              </div>
-              <a href="" className="preview-link">
-                <h1>How to build webapps that scale</h1>
-                <p>This is the description for the post.</p>
-                <span>Read more...</span>
-              </a>
-            </div>
-            <div className="article-preview">
-              <div className="article-meta">
-                <a href="profile.html"><img src="http://i.imgur.com/N4VcUeJ.jpg"/></a>
-                <div className="info">
-                  <a href="" className="author">Albert Pai</a>
-                  <span className="date">January 20th</span>
-                </div>
-                <button className="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i className="ion-heart"/> 32
-                </button>
-              </div>
-              <a href="" className="preview-link">
-                <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-                <p>This is the description for the post.</p>
-                <span>Read more...</span>
-              </a>
-            </div>
+            {!isEmptyObject(articles) &&
+            articles.map(article => <ArticlePreview key={article.slug} article={article}/>)}
           </div>
           <div className="col-md-3">
             <div className="sidebar">

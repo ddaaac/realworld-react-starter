@@ -1,13 +1,9 @@
 import React from "react";
 import AUTH_TYPE from "../auth/AuthType";
-import Nav from "./nav";
+import Nav from "../nav";
 
 const Header = ({currentAuthType, logout}) => {
-  const onLogout = (e) => {
-    e.preventDefault();
-    logout();
-  };
-
+  
   return (
     <nav className="navbar navbar-light">
       <div className="container">
@@ -25,7 +21,7 @@ const Header = ({currentAuthType, logout}) => {
             {currentAuthType.subject}
           </Nav>}
           {currentAuthType === AUTH_TYPE.ALREADY_LOGIN &&
-          <Nav to="/logout" onClick={onLogout}>Logout</Nav>}
+          <Nav to="/logout" onClick={logout}>Logout</Nav>}
         </ul>
       </div>
     </nav>

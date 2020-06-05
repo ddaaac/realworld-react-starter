@@ -1,0 +1,4 @@
+GET https://conduit.productionready.io/api/articles?author=qwerasdfzxcv123
+Authorization: Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTAwNjAyLCJ1c2VybmFtZSI6Iu2XiOu4jO2PsCIsImV4cCI6MTU5NjUxNTEyMX0.Q1NNpWIMsYdTXAGc1Qg4TWvAL0ORUhxPVa1IocYjMxs
+
+###

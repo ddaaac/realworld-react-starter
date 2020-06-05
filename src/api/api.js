@@ -26,6 +26,9 @@ const METHOD = {
 };
 
 const setTokenHeader = (headers, token) => {
+  if (!token) {
+    return headers;
+  }
   return {
     ...headers,
     "Authorization": `Token ${token}`,
@@ -84,7 +87,13 @@ const api = (() => {
         },
       }, {headers: setTokenHeader({}, token)});
     },
-    get(slug) {
+    get({tag, author, favorited, limit, offset, token}) {
+      return METHOD.GET(`${BASE_URL}/articles`, {
+        params: {tag, author, favorited, limit, offset},
+        headers: setTokenHeader({}, token),
+      });
+    },
+    getBySlug(slug) {
       return METHOD.GET(`${BASE_URL}/articles/${slug}`);
     },
     update(token, slug, {title, description, body}) {

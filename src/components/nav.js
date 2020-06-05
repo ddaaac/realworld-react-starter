@@ -1,7 +1,14 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 
-function Nav({children, to, onClick}) {
+const Nav = ({children, to, onClick, isActive}) => {
+  const onNav = (e) => {
+    if (onClick) {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <li className="nav-item">
       <NavLink
@@ -9,7 +16,8 @@ function Nav({children, to, onClick}) {
         activeClassName={"active"}
         exact
         to={to}
-        onClick={onClick}
+        onClick={onNav}
+        isActive={isActive}
       >
         {children}
       </NavLink>
