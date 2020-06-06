@@ -109,12 +109,11 @@ const App = () => {
       }
     };
 
-    const getArticles = async ({slug, tag, author, favorited, limit, offset, my}) => {
+    const getArticles = async ({tag, author, favorited, limit, offset, my}) => {
       try {
-        slug = slug ? slug : "";
-        let config = {slug, tag, author, favorited, limit, offset};
+        const config = {tag, author, favorited, limit, offset};
         if (my) {
-          config = {...config, author: myInfo.username};
+          config.author = myInfo.username;
         }
         const {data} = await api.articles.get(config);
         setArticles(data.articles);
