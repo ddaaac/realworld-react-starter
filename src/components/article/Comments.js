@@ -19,7 +19,7 @@ const Comments = ({comments, submitComment, username}) => {
           </div>
         </form>
         {comments.map(comment => (
-          <Comment comment={comment} username={username}/>
+          <Comment key={comment.id} comment={comment} username={username}/>
         ))}
       </div>
     </div>

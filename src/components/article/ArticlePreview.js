@@ -4,8 +4,6 @@ import SubmitButton from "../SubmitButton";
 import {Link} from "react-router-dom";
 
 const ArticlePreview = ({article, toggleFavorite}) => {
-  console.log(article);
-
   const onSubmit = () => {
     toggleFavorite(article.slug);
   };

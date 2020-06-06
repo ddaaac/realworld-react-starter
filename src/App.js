@@ -111,7 +111,7 @@ const App = () => {
 
   const getArticles = async ({tag, author, favorited, limit, offset, my}) => {
     try {
-      const config = {tag, author, favorited, limit, offset};
+      const config = {tag, author, favorited, limit, offset, token: tokenAdmin.getToken()};
       if (my) {
         config.author = myInfo.username;
       }
@@ -175,7 +175,10 @@ const App = () => {
         <Editor createArticle={createArticle}/>
       </AuthRoute>
       <Route path="/articles/:slug" exact>
-        <Article/>
+        <Article
+          articles={articles}
+          toggleFavorite={toggleFavorite}
+        />
       </Route>
       <Footer/>
     </>

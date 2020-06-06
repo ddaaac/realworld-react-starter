@@ -1,13 +1,17 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ArticleHeader from "../components/article/ArticleHeader";
 import SubmitButton from "../components/SubmitButton";
 import {useLocation} from "react-router-dom";
 import ArticleBody from "../components/article/ArticleBody";
 import Comments from "../components/article/Comments";
 
-const Article = () => {
+const Article = ({articles, toggleFavorite}) => {
   const location = useLocation();
-  const article = location.state.article;
+  const [article, setArticle] = useState(articles.filter(it => it.slug === location.state.article.slug)[0]);
+
+  useEffect(() => {
+    setArticle(articles.filter(it => it.slug === location.state.article.slug)[0]);
+  }, [articles]);
 
   return (
     <div className="article-page">
@@ -21,10 +25,10 @@ const Article = () => {
               Follow {article.author.username} <span className="counter">(10)</span>
             </SubmitButton>
             &nbsp;&nbsp;
-            <SubmitButton small>
+            <SubmitButton small isActive={article.favorited} onSubmit={() => toggleFavorite(article.slug)}>
               <i className="ion-heart"/>
               &nbsp;
-              Favorite Post <span className="counter">(29)</span>
+              Favorite Post <span className="counter">{article.favoritesCount}</span>
             </SubmitButton>
           </ArticleHeader>
         </div>
@@ -40,10 +44,10 @@ const Article = () => {
               Follow {article.author.username} <span className="counter">(10)</span>
             </SubmitButton>
             &nbsp;
-            <SubmitButton small>
+            <SubmitButton small isActive={article.favorited} onSubmit={() => toggleFavorite(article.slug)}>
               <i className="ion-heart"/>
               &nbsp;
-              Favorite Post <span className="counter">(29)</span>
+              Favorite Post <span className="counter">{article.favoritesCount}</span>
             </SubmitButton>
           </ArticleHeader>
         </div>
