@@ -25,10 +25,13 @@ const App = () => {
       if (isLogin() && currentAuthType !== AuthType.ALREADY_LOGIN) {
         setCurrentAuthType(AuthType.ALREADY_LOGIN);
       }
-      if (isLogin()) {
+    }, []);
+
+    useEffect(() => {
+      if (currentAuthType === AuthType.ALREADY_LOGIN) {
         getMyInfo();
       }
-    }, []);
+    }, [currentAuthType]);
 
     const onUnmounted = (nextPath) => {
       setErrors(null);
@@ -111,7 +114,6 @@ const App = () => {
         slug = slug ? slug : "";
         let config = {slug, tag, author, favorited, limit, offset};
         if (my) {
-          console.log(myInfo)
           config = {...config, author: myInfo.username};
         }
         const {data} = await api.articles.get(config);
@@ -147,7 +149,7 @@ const App = () => {
         <AuthRoute path="/editor" exact isLogin={isLogin} currentAuthType={currentAuthType}>
           <Editor createArticle={createArticle}/>
         </AuthRoute>
-        <Route path="/articles" exact>
+        <Route path="/articles/:slug" exact>
           <Article/>
         </Route>
         <Footer/>

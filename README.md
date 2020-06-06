@@ -482,7 +482,7 @@ Alternatively, if you want to make modifications to the theme, check out the [th
           <div class="card-footer">
             <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
             <button class="btn btn-sm btn-primary">
-             Post Comment
+             Post Comments
             </button>
           </div>
         </form>

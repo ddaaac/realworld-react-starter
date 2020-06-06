@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import ArticlePreview from "../components/article/Preview";
+import ArticlePreview from "../components/article/ArticlePreview";
 import isEmptyObject from "../utils/util";
 import Nav from "../components/nav";
 import FEED_TYPE from "../components/article/FeedType";

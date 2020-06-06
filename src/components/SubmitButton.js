@@ -1,13 +1,17 @@
 import React from 'react';
 
-function SubmitButton({children, onSubmit}) {
+// default = big, primary, align right
+function SubmitButton({children, onSubmit, small, big, primary, secondary, center}) {
   const onClick = (e) => {
     e.preventDefault();
     onSubmit();
   };
 
   return (
-    <button className="btn btn-lg pull-xs-right btn-primary" type="button" onClick={onClick}>
+    <button
+      className={`btn ${small ? 'btn-sm' : 'btn-lg'} ${center ? '' : 'pull-xs-right'} ${secondary ? 'btn-secondary' : 'btn-primary'}`}
+      type="button" onClick={onClick}
+    >
       {children}
     </button>
   );
