@@ -50,7 +50,7 @@ const Auth = ({type, onClick, errors, pushToLogin, onUnmounted}) => {
               }
               <FieldInput type="text" placeholder="Email" name="email" value={email} onChange={onChange}/>
               <FieldInput type="password" placeholder="Password" name="password" value={password} onChange={onChange}/>
-              <SubmitButton onSubmit={onSubmit}>{type.subject}</SubmitButton>
+              <SubmitButton onSubmit={onSubmit} isActive>{type.subject}</SubmitButton>
             </form>
           </div>
         </div>

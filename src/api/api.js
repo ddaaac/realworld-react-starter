@@ -112,6 +112,25 @@ const api = (() => {
     delete(token, slug) {
       return METHOD.DELETE(`${BASE_URL}/articles/${slug}`, {headers: setTokenHeader({}, token)});
     },
+    addComment(token, slug, body) {
+      return METHOD.POST(
+        `${BASE_URL}/articles/${slug}/comments`,
+        {comment: {body}},
+        {headers: setTokenHeader({}, token)}
+      );
+    },
+    getComments(slug) {
+      return METHOD.GET(`${BASE_URL}/articles/${slug}/comments`);
+    },
+    deleteComment(token, slug, id) {
+      return METHOD.DELETE(`${BASE_URL}/articles/${slug}/comments/${id}`, {headers: setTokenHeader({}, token)});
+    },
+    favorite(token, slug) {
+      return METHOD.POST(`${BASE_URL}/articles/${slug}/favorite`, null, {headers: setTokenHeader({}, token)});
+    },
+    unfavorite(token, slug) {
+      return METHOD.DELETE(`${BASE_URL}/articles/${slug}/favorite`, {headers: setTokenHeader({}, token)});
+    },
   };
 
   return {

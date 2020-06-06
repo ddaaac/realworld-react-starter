@@ -41,7 +41,7 @@ const Editor = ({createArticle}) => {
                   <div className="tag-list">
                   </div>
                 </FieldInput>
-                <SubmitButton onSubmit={submitArticle}>Publish Article</SubmitButton>
+                <SubmitButton onSubmit={submitArticle} isActive>Publish Article</SubmitButton>
               </fieldset>
             </form>
           </div>

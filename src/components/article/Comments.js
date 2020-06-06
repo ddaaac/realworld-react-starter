@@ -13,7 +13,7 @@ const Comments = ({comments, submitComment, username}) => {
           </div>
           <div className="card-footer">
             <img src="http://i.imgur.com/Qr71crq.jpg" className="comment-author-img"/>
-            <SubmitButton small primary>
+            <SubmitButton small isActive>
               Post Comment
             </SubmitButton>
           </div>

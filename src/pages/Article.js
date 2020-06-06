@@ -15,7 +15,7 @@ const Article = () => {
         <div className="container">
           <h1>{article.title}</h1>
           <ArticleHeader article={article}>
-            <SubmitButton small secondary>
+            <SubmitButton small isActive>
               <i className="ion-plus-round"/>
               &nbsp;
               Follow {article.author.username} <span className="counter">(10)</span>
@@ -34,13 +34,13 @@ const Article = () => {
         <hr/>
         <div className="article-actions">
           <ArticleHeader article={article}>
-            <SubmitButton small secondary>
+            <SubmitButton small isActive>
               <i className="ion-plus-round"/>
               &nbsp;
               Follow {article.author.username} <span className="counter">(10)</span>
             </SubmitButton>
             &nbsp;
-            <SubmitButton small primary>
+            <SubmitButton small>
               <i className="ion-heart"/>
               &nbsp;
               Favorite Post <span className="counter">(29)</span>

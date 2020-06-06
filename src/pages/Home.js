@@ -4,7 +4,7 @@ import isEmptyObject from "../utils/util";
 import Nav from "../components/nav";
 import FEED_TYPE from "../components/article/FeedType";
 
-const Home = ({articles, getArticles, feedType, setFeedType}) => {
+const Home = ({articles, getArticles, feedType, setFeedType, toggleFavorite}) => {
   useEffect(() => {
     getArticles({});
   }, []);
@@ -38,7 +38,12 @@ const Home = ({articles, getArticles, feedType, setFeedType}) => {
               </ul>
             </div>
             {!isEmptyObject(articles) &&
-            articles.map(article => <ArticlePreview key={article.slug} article={article}/>)}
+            articles.map(article => (
+              <ArticlePreview
+                key={article.slug}
+                article={article}
+                toggleFavorite={toggleFavorite}
+              />))}
           </div>
           <div className="col-md-3">
             <div className="sidebar">

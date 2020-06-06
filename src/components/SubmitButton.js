@@ -1,7 +1,7 @@
 import React from 'react';
 
 // default = big, primary, align right
-function SubmitButton({children, onSubmit, small, big, primary, secondary, center}) {
+function SubmitButton({children, onSubmit, small, big, isActive, center}) {
   const onClick = (e) => {
     e.preventDefault();
     onSubmit();
@@ -9,7 +9,7 @@ function SubmitButton({children, onSubmit, small, big, primary, secondary, cente
 
   return (
     <button
-      className={`btn ${small ? 'btn-sm' : 'btn-lg'} ${center ? '' : 'pull-xs-right'} ${secondary ? 'btn-secondary' : 'btn-primary'}`}
+      className={`btn ${small ? 'btn-sm' : 'btn-lg'} ${center ? '' : 'pull-xs-right'} ${isActive ? 'btn-primary' : 'btn-secondary'}`}
       type="button" onClick={onClick}
     >
       {children}

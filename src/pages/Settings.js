@@ -57,7 +57,7 @@ const Settings = ({updateMyInfo, onLoad, myInfo, errors, onUnmounted, isLogin, p
                 <FieldInput type="text" placeholder="Email" name="email" value={email} onChange={onChange}/>
                 <FieldInput type="password" placeholder="Password" name="password" value={password}
                             onChange={onChange}/>
-                <SubmitButton onSubmit={updateUser}>Update Settings</SubmitButton>
+                <SubmitButton onSubmit={updateUser} isActive>Update Settings</SubmitButton>
               </fieldset>
             </form>
           </div>
