@@ -5,13 +5,38 @@ import {useLocation} from "react-router-dom";
 import ArticleBody from "../components/article/ArticleBody";
 import Comments from "../components/article/Comments";
 
-const Article = ({articles, toggleFavorite}) => {
+const Article = ({articles, toggleFavorite, addComment, getComments, deleteComment, myInfo}) => {
   const location = useLocation();
   const [article, setArticle] = useState(articles.filter(it => it.slug === location.state.article.slug)[0]);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     setArticle(articles.filter(it => it.slug === location.state.article.slug)[0]);
   }, [articles]);
+
+  useEffect(() => {
+    const getCommentsOnLoad = async () => {
+      setComments(await getComments(article.slug));
+    };
+    getCommentsOnLoad();
+  }, []);
+
+  const onAddComment = async (body) => {
+    setComments([...comments, await addComment(article.slug, body)]);
+  };
+
+  const onDeleteComment = async (id) => {
+    await deleteComment(article.slug, id);
+    setComments(comments.filter(comment => comment.id !== id));
+  };
+
+  const onUpdateComment = async (id, body) => {
+    await deleteComment(article.slug, id);
+    await addComment(article.slug, body);
+    setComments(comments.map(comment => {
+      return comment.id === id ? {...comment, body} : comment;
+    }));
+  };
 
   return (
     <div className="article-page">
@@ -51,18 +76,13 @@ const Article = ({articles, toggleFavorite}) => {
             </SubmitButton>
           </ArticleHeader>
         </div>
-        <Comments comments={[{
-          "id": 1,
-          "createdAt": "2016-02-18T03:22:56.637Z",
-          "updatedAt": "2016-02-18T03:22:56.637Z",
-          "body": "It takes a Jacobian",
-          "author": {
-            "username": "jake",
-            "bio": "I work at statefarm",
-            "image": "https://i.stack.imgur.com/xHWG8.jpg",
-            "following": false
-          }
-        }]}/>
+        <Comments
+          comments={comments}
+          addComment={onAddComment}
+          deleteComment={onDeleteComment}
+          updateComment={onUpdateComment}
+          myInfo={myInfo}
+        />
       </div>
     </div>
   )

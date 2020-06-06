@@ -143,6 +143,35 @@ const App = () => {
     }
   };
 
+  const addComment = async (slug, body) => {
+    try {
+      const {data} = await api.articles.addComment(tokenAdmin.getToken(), slug, body);
+      return data.comment;
+    } catch (e) {
+      const errors = e.response.data ? e.response.data : {status: e.response.status};
+      setErrors(errors);
+    }
+  };
+
+  const getComments = async (slug) => {
+    try {
+      const {data} = await api.articles.getComments(slug);
+      return data.comments;
+    } catch (e) {
+      const errors = e.response.data ? e.response.data : {status: e.response.status};
+      setErrors(errors);
+    }
+  };
+
+  const deleteComment = async (slug, id) => {
+    try {
+      return await api.articles.deleteComment(tokenAdmin.getToken(), slug, id);
+    } catch (e) {
+      const errors = e.response.data ? e.response.data : {status: e.response.status};
+      setErrors(errors);
+    }
+  };
+
   return (
     <>
       <Header currentAuthType={currentAuthType} logout={logout}/>
@@ -178,6 +207,10 @@ const App = () => {
         <Article
           articles={articles}
           toggleFavorite={toggleFavorite}
+          addComment={addComment}
+          getComments={getComments}
+          deleteComment={deleteComment}
+          myInfo={myInfo}
         />
       </Route>
       <Footer/>

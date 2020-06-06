@@ -1,31 +1,22 @@
 import React from 'react';
-import SubmitButton from "../SubmitButton";
-import * as PropTypes from "prop-types";
 import Comment from "./Comment";
+import isEmptyObject from "../../utils/util";
+import CommentInput from "./CommentInput";
 
-const Comments = ({comments, submitComment, username}) => {
+const Comments = ({comments, myInfo, addComment, deleteComment, updateComment}) => {
   return (
     <div className="row">
       <div className="col-xs-12 col-md-8 offset-md-2">
-        <form className="card comment-form">
-          <div className="card-block">
-            <textarea className="form-control" placeholder="Write a comment..." rows="3"/>
-          </div>
-          <div className="card-footer">
-            <img src="http://i.imgur.com/Qr71crq.jpg" className="comment-author-img"/>
-            <SubmitButton small isActive>
-              Post Comment
-            </SubmitButton>
-          </div>
-        </form>
-        {comments.map(comment => (
-          <Comment key={comment.id} comment={comment} username={username}/>
+        <CommentInput addComment={addComment} image={myInfo.image}/>
+        {!isEmptyObject(comments) && comments.map(comment => (
+          <Comment key={comment.id} comment={comment} myInfo={myInfo}
+                   deleteComment={deleteComment}
+                   updateComment={updateComment}
+          />
         ))}
       </div>
     </div>
   );
 };
-
-Comments.propTypes = {comments: PropTypes.any}
 
 export default Comments;
