@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import dateFormatter from "../../utils/dateFormatter";
 import CommentInput from "./CommentInput";
+import {Link} from "react-router-dom";
 
 const Comment = ({comment, myInfo, deleteComment, updateComment}) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -18,9 +19,9 @@ const Comment = ({comment, myInfo, deleteComment, updateComment}) => {
           <p className="card-text">{comment.body}</p>
         </div>
         <div className="card-footer">
-          <a href="" className="comment-author">
+          <Link to={`/profiles/${comment.author.username}`} className="comment-author">
             <img src={comment.author.image} className="comment-author-img" alt="프"/>
-          </a>
+          </Link>
           &nbsp;
           <a href="" className="comment-author">{comment.author.username}</a>
           <span className="date-posted">{dateFormatter(comment.createdAt)}</span>

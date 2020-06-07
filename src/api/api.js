@@ -137,6 +137,12 @@ const api = (() => {
     get(username, token) {
       return METHOD.GET(`${BASE_URL}/profiles/${username}`, {headers: setTokenHeader({}, token)});
     },
+    follow(username, token) {
+      return METHOD.POST(`${BASE_URL}/profiles/${username}/follow`, null, {headers: setTokenHeader({}, token)});
+    },
+    unFollow(username, token) {
+      return METHOD.DELETE(`${BASE_URL}/profiles/${username}/follow`, {headers: setTokenHeader({}, token)});
+    },
   };
 
   return {

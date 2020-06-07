@@ -185,6 +185,17 @@ const App = () => {
     }
   };
 
+  const toggleFollow = async () => {
+    try {
+      const action = profile.following ? api.profiles.unFollow : api.profiles.follow;
+      await action(profile.username, tokenAdmin.getToken());
+      setProfile({...profile, following: !profile.following});
+    } catch (e) {
+      const errors = e.response.data ? e.response.data : {status: e.response.status};
+      setErrors(errors);
+    }
+  };
+
   return (
     <>
       <Header currentAuthType={currentAuthType} logout={logout}/>
@@ -224,6 +235,9 @@ const App = () => {
           getComments={getComments}
           deleteComment={deleteComment}
           myInfo={myInfo}
+          profile={profile}
+          setProfile={setProfile}
+          toggleFollow={toggleFollow}
         />
       </Route>
       <Route path="/profiles/:username" exact>
@@ -232,6 +246,7 @@ const App = () => {
           articles={articles}
           onLoading={getProfileAndArticle}
           toggleFavorite={toggleFavorite}
+          toggleFollow={toggleFollow}
         />
       </Route>
       <Footer/>

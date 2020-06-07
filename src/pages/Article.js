@@ -5,13 +5,14 @@ import {useLocation} from "react-router-dom";
 import ArticleBody from "../components/article/ArticleBody";
 import Comments from "../components/article/Comments";
 
-const Article = ({articles, toggleFavorite, addComment, getComments, deleteComment, myInfo}) => {
+const Article = ({articles, toggleFavorite, addComment, getComments, deleteComment, myInfo, profile, setProfile, toggleFollow}) => {
   const location = useLocation();
   const [article, setArticle] = useState(articles.filter(it => it.slug === location.state.article.slug)[0]);
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
     setArticle(articles.filter(it => it.slug === location.state.article.slug)[0]);
+    setProfile(article.author);
   }, [articles]);
 
   useEffect(() => {
@@ -44,10 +45,10 @@ const Article = ({articles, toggleFavorite, addComment, getComments, deleteComme
         <div className="container">
           <h1>{article.title}</h1>
           <ArticleHeader article={article}>
-            <SubmitButton small isActive>
+            <SubmitButton small isActive={profile.following} onSubmit={toggleFollow}>
               <i className="ion-plus-round"/>
               &nbsp;
-              Follow {article.author.username} <span className="counter">(10)</span>
+              Follow {profile.username} <span className="counter"/>
             </SubmitButton>
             &nbsp;&nbsp;
             <SubmitButton small isActive={article.favorited} onSubmit={() => toggleFavorite(article.slug)}>
@@ -63,10 +64,10 @@ const Article = ({articles, toggleFavorite, addComment, getComments, deleteComme
         <hr/>
         <div className="article-actions">
           <ArticleHeader article={article}>
-            <SubmitButton small isActive>
+            <SubmitButton small isActive={profile.following} onSubmit={toggleFollow}>
               <i className="ion-plus-round"/>
               &nbsp;
-              Follow {article.author.username} <span className="counter">(10)</span>
+              Follow {profile.username} <span className="counter"/>
             </SubmitButton>
             &nbsp;
             <SubmitButton small isActive={article.favorited} onSubmit={() => toggleFavorite(article.slug)}>

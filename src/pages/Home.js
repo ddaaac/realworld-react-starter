@@ -6,6 +6,7 @@ import FEED_TYPE from "../components/article/FeedType";
 
 const Home = ({articles, getArticles, feedType, setFeedType, toggleFavorite}) => {
   useEffect(() => {
+    setFeedType(FEED_TYPE.GLOBAL);
     getArticles({});
   }, []);
 

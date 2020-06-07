@@ -5,7 +5,7 @@ import isEmptyObject from "../utils/util";
 import Nav from "../components/nav";
 import ArticlePreview from "../components/article/ArticlePreview";
 
-const Profile = ({profile, articles, onLoading, toggleFavorite}) => {
+const Profile = ({profile, articles, onLoading, toggleFavorite, toggleFollow}) => {
   const {username} = useParams();
   const [articleType, setArticleType] = useState("author");
 
@@ -26,7 +26,7 @@ const Profile = ({profile, articles, onLoading, toggleFavorite}) => {
                 <p>
                   {profile.bio}
                 </p>
-                <SubmitButton small isActive={false} action-btn>
+                <SubmitButton small isActive={profile.following} onSubmit={toggleFollow} action-btn>
                   <i className="ion-plus-round"/>
                   &nbsp;
                   Follow {profile.username}

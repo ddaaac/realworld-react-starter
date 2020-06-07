@@ -1,13 +1,14 @@
 import React from "react";
 import AUTH_TYPE from "../auth/AuthType";
 import Nav from "../nav";
+import {Link} from "react-router-dom";
 
 const Header = ({currentAuthType, logout}) => {
-  
+
   return (
     <nav className="navbar navbar-light">
       <div className="container">
-        <a className="navbar-brand" href="index.html">conduit</a>
+        <Link className="navbar-brand" to="/">conduit</Link>
         <ul className="nav navbar-nav pull-xs-right">
           <Nav to={"/"}>Home</Nav>
           <Nav to="/editor">
