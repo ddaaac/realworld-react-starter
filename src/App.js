@@ -12,11 +12,13 @@ import Editor from "./pages/Editor";
 import AuthRoute from "./components/AuthRoute";
 import Article from "./pages/Article";
 import FEED_TYPE from "./components/article/FeedType";
+import Profile from "./pages/Profile";
 
 const App = () => {
   const [errors, setErrors] = useState({});
   const [myInfo, setMyInfo] = useState({});
   const [articles, setArticles] = useState({});
+  const [profile, setProfile] = useState({});
   const [feedType, setFeedType] = useState(FEED_TYPE.GLOBAL);
   const [currentAuthType, setCurrentAuthType] = useState(AuthType.NEED_REGISTER);
   const history = useHistory();
@@ -172,6 +174,17 @@ const App = () => {
     }
   };
 
+  const getProfileAndArticle = async (username, articleType) => {
+    try {
+      const {data} = await api.profiles.get(username, tokenAdmin.getToken());
+      setProfile(data.profile);
+      await getArticles({[articleType]: username});
+    } catch (e) {
+      const errors = e.response.data ? e.response.data : {status: e.response.status};
+      setErrors(errors);
+    }
+  };
+
   return (
     <>
       <Header currentAuthType={currentAuthType} logout={logout}/>
@@ -211,6 +224,14 @@ const App = () => {
           getComments={getComments}
           deleteComment={deleteComment}
           myInfo={myInfo}
+        />
+      </Route>
+      <Route path="/profiles/:username" exact>
+        <Profile
+          profile={profile}
+          articles={articles}
+          onLoading={getProfileAndArticle}
+          toggleFavorite={toggleFavorite}
         />
       </Route>
       <Footer/>

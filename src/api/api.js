@@ -133,9 +133,16 @@ const api = (() => {
     },
   };
 
+  const profiles = {
+    get(username, token) {
+      return METHOD.GET(`${BASE_URL}/profiles/${username}`, {headers: setTokenHeader({}, token)});
+    },
+  };
+
   return {
     users,
     articles,
+    profiles,
   }
 })();
 
